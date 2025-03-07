@@ -25,8 +25,8 @@ void initialized_Matrix(double A[MAX_SIZE][MAX_SIZE],int N){
       }
     }
 }
-//loop interchange (Row major)
-void RowMajor(double A[MAX_SIZE][MAX_SIZE],int N){
+//loop interchange (Row major) and scheduling static
+void RowMajor_static(double A[MAX_SIZE][MAX_SIZE],int N){
     
 long long sum=0;
 double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
@@ -38,10 +38,10 @@ double start=omp_get_wtime(); // return current time in seconds , used in openMP
            }
     }
     double end= omp_get_wtime();
-    printf("Execution Time:%.6f",(start-end));
+    printf("Execution Time(Row Major static scheduing):%.6f\n",(end-start));
 }
 //loop Interchange(coulmn Major)
-void ColumnMajor(double A[MAX_SIZE][MAX_SIZE],int N){
+void ColumnMajor_static(double A[MAX_SIZE][MAX_SIZE],int N){
     
     long long sum=0;//declare sum is long long beacuse result can be very large, size of the byte is 8 bytes, long long can store 9 quintillion values 
     double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
@@ -53,9 +53,39 @@ void ColumnMajor(double A[MAX_SIZE][MAX_SIZE],int N){
                }
         }
         double end= omp_get_wtime();
-        printf("Execution Time:%.6f",(start-end));
+        printf("Execution Time(Column Major static scheduing):%.6f\n",(end-start));
     }
-
+//loop interchange (Row major) and scheduling dynamic
+void RowMajor_dynamic(double A[MAX_SIZE][MAX_SIZE],int N){
+    
+    long long sum=0;
+    double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
+     #pragma openmp parallel for schedule(dynamic) reduction(+:sum)
+           for(int i=0; i<N; i++)
+        {
+               for(int j=0; j<N; j++){
+                   sum += A[i][j];
+               }
+        }
+        double end= omp_get_wtime();
+        printf("Execution Time(Row Major dynamic scheduling):%.6f\n",(end-start));
+    }
+    //loop Interchange(coulmn Major)
+    void ColumnMajor_dynamic(double A[MAX_SIZE][MAX_SIZE],int N){
+        
+        long long sum=0;//declare sum is long long beacuse result can be very large, size of the byte is 8 bytes, long long can store 9 quintillion values 
+        double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
+        #pragma openmp parallel for schedule(dynamic) reduction(+:sum)
+            for(int j=0; j<N; j++)
+            {
+                   for(int i=0; i<N; i++){
+                       sum += A[i][j];
+                   }
+            }
+            double end= omp_get_wtime();
+            printf("Execution Time(Column Major dynamic scheduling):%.6f\n",(end-start));
+        }
+    
 
 int main(){
 int sizes[]={512,1024,2000};//Test different matrix sizes
@@ -68,12 +98,14 @@ for(int t=0; t<3; t++){
         printf("\n--- Testing with %d Threads ---\n", threads[t]);
         for(int s=0; s<3; s++){
             int N=sizes[s];
-            printf("\n----Matrix Size: %d X %d \n",N,N);
+            printf("\nMatrix Size: %d X %d \n",N,N);
             static double A[MAX_SIZE][MAX_SIZE];    //static move A to static memory which hold much large data
              //useful for large array that not fit on stack memory
              initialized_Matrix(A,N);
-             RowMajor(A,N);
-             ColumnMajor(A,N);
+             RowMajor_static(A,N);
+             ColumnMajor_static(A,N);
+             RowMajor_dynamic(A,N);
+             ColumnMajor_dynamic(A,N);
        
     }
 }
