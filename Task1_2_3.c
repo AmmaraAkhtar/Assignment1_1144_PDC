@@ -9,7 +9,7 @@
 #define MAX_SIZE 2000//define maximum array 
 
 // function for initialized the matrix 
-void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
+void initialized_Matrix(double A[MAX_SIZE][MAX_SIZE],int N){
    srand(time(0));// Srand that start the sequence of random number generator,witout srand everytime you run your program thr rand() generate the same sequence of number.
    //srand help you to change the sequence every rime you run your program 
    //time(0) gives the current time in a special way.
@@ -61,9 +61,23 @@ int main(){
 int sizes[]={512,1024,2000};//Test different matrix sizes
 int threads[]={1,4,8};// Test different thread sizes
 
- static double A[MAX_SIZE][MAX_SIZE];    //static move A to static memory which hold much large data
- //useful for large array that not fit on stack memory
 
+for(int t=0; t<3; t++){
+    
+        omp_set_num_threads(threads[t]);
+        printf("\n--- Testing with %d Threads ---\n", threads[t]);
+        for(int s=0; s<3; s++){
+            int N=sizes[s];
+            printf("\n----Matrix Size: %d X %d \n",N,N);
+            static double A[MAX_SIZE][MAX_SIZE];    //static move A to static memory which hold much large data
+             //useful for large array that not fit on stack memory
+             initialized_Matrix(A,N);
+             RowMajor(A,N);
+             ColumnMajor(A,N);
+       
+    }
+}
+ 
 
     return 0;
 }
