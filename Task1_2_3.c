@@ -9,7 +9,11 @@
 #define MAX_SIZE 2000//define maximum array 
 
 
+<<<<<<< HEAD
 // function for initialized the matrix 
+=======
+
+>>>>>>> 1156fe6ed407435249eaee926918911225d4389a
 void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
    srand(time(0));// Srand that start the sequence of random number generator,witout srand everytime you run your program thr rand() generate the same sequence of number.
    //srand help you to change the sequence every rime you run your program 
@@ -27,6 +31,7 @@ void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
     }
 }
 
+<<<<<<< HEAD
 //loop interchange (Row major)
 void RowMajor(double A[MAX_SIZE][MAX_SIZE],int N){
     
@@ -51,6 +56,10 @@ void ColumnMajor(double A[MAX_SIZE][MAX_SIZE],int N){
                }
         }
     }
+=======
+
+
+>>>>>>> 1156fe6ed407435249eaee926918911225d4389a
 
 
 
