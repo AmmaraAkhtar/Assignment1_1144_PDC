@@ -9,6 +9,29 @@
 #define MAX_SIZE 2000//define maximum array 
 
 
+
+void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
+   srand(time(0));// Srand that start the sequence of random number generator,witout srand everytime you run your program thr rand() generate the same sequence of number.
+   //srand help you to change the sequence every rime you run your program 
+   //time(0) gives the current time in a special way.
+   //Instead of showing the time like 03 March 2025, 12:34 PM,
+   //it gives the time as a single number (a count of seconds).
+   //The count starts from a fixed date:
+   //January 1, 1970.
+   //time(0) changes every second.
+
+   for(int i=0; i<N; i++){
+      for(int j=0; j<N; j++){
+         A[i][j]=rand()%100;//It generates a random number between 1 and 100, % 100	Takes the remainder when divided by 100 — so result is between 0 and 99
+      }
+    }
+}
+
+
+
+
+
+
 int main(){
 int sizes[]={512,1024,2000};//Test different array sizes
 int threads[]={1,4,8};// Test different thread sizes
