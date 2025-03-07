@@ -56,11 +56,6 @@ void ColumnMajor(double A[MAX_SIZE][MAX_SIZE],int N){
                }
         }
     }
-=======
-
-
->>>>>>> 1156fe6ed407435249eaee926918911225d4389a
-
 
 
 int main(){
@@ -70,6 +65,6 @@ int threads[]={1,4,8};// Test different thread sizes
  static double A[MAX_SIZE][MAX_SIZE];    //static move A to static memory which hold much large data
  //useful for large array that not fit on stack memory
 
-
+//
     return 0;
 }
