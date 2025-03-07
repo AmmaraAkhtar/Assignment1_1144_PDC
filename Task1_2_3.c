@@ -8,12 +8,7 @@
 #include<time.h>
 #define MAX_SIZE 2000//define maximum array 
 
-
-<<<<<<< HEAD
 // function for initialized the matrix 
-=======
-
->>>>>>> 1156fe6ed407435249eaee926918911225d4389a
 void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
    srand(time(0));// Srand that start the sequence of random number generator,witout srand everytime you run your program thr rand() generate the same sequence of number.
    //srand help you to change the sequence every rime you run your program 
@@ -30,12 +25,11 @@ void initializedArray(double A[MAX_SIZE][MAX_SIZE],int N){
       }
     }
 }
-
-<<<<<<< HEAD
 //loop interchange (Row major)
 void RowMajor(double A[MAX_SIZE][MAX_SIZE],int N){
     
 long long sum=0;
+double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
  #pragma openmp parallel for schedule(static) reduction(+:sum)
        for(int i=0; i<N; i++)
     {
@@ -43,18 +37,23 @@ long long sum=0;
                sum += A[i][j];
            }
     }
+    double end= omp_get_wtime();
+    printf("Execution Time:%.6f",(start-end));
 }
 //loop Interchange(coulmn Major)
 void ColumnMajor(double A[MAX_SIZE][MAX_SIZE],int N){
     
     long long sum=0;//declare sum is long long beacuse result can be very large, size of the byte is 8 bytes, long long can store 9 quintillion values 
-     #pragma openmp parallel for schedule(static) reduction(+:sum)
-           for(int j=0; j<N; j++)
+    double start=omp_get_wtime(); // return current time in seconds , used in openMP programs
+    #pragma openmp parallel for schedule(static) reduction(+:sum)
+        for(int j=0; j<N; j++)
         {
                for(int i=0; i<N; i++){
                    sum += A[i][j];
                }
         }
+        double end= omp_get_wtime();
+        printf("Execution Time:%.6f",(start-end));
     }
 
 
@@ -65,7 +64,6 @@ int threads[]={1,4,8};// Test different thread sizes
  static double A[MAX_SIZE][MAX_SIZE];    //static move A to static memory which hold much large data
  //useful for large array that not fit on stack memory
 
-//
-//
+
     return 0;
 }
